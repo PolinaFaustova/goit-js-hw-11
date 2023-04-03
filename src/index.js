@@ -49,33 +49,39 @@ const handleSearchFormSubmit = async event => {
   event.preventDefault();
   const searchQuery = inputForm.value.trim();
   pixabayApi.query = searchQuery;
+  pixabayApi.page = 1;
 
   try {
     const { data } = await pixabayApi.fetchPhoto();
 
-    if (!data.results.length) {
-      console.log('Images not found!');
+    if (!data.hits.length) {
+      console.log(
+        'Sorry, there are no images matching your search query. Please try again.'
+      );
       return;
     }
-    galleryList.innerHTML = createGalleryCards(data.results);
+    galleryList.innerHTML = createGalleryCards(data.hits);
     btnLoadMore.classList.remove('is-hidden');
   } catch (err) {
     console.log(err);
+  } finally {
+    btnLoadMore.classList.add('is-hidden');
   }
 };
+
 const handleBtnLoadMoreClick = async () => {
   pixabayApi.page += 1;
 
   try {
     const { data } = await pixabayApi.fetchPhoto();
 
-    if (pixabayApi.page === data.totalPages) {
+    if (pixabayApi.page === Math.ceil(data.totalHits / 40)) {
       btnLoadMore.classList.add('is-hidden');
+      Notiflix.Notify.warning(
+        "We're sorry, but you've reached the end of search results."
+      );
     }
-    galleryList.insertAdjacentHTML(
-      'beforeend',
-      createGalleryCards(data.results)
-    );
+    galleryList.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
   } catch (err) {
     console.log(err);
   }

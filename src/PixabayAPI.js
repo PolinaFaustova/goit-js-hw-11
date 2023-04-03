@@ -5,6 +5,7 @@ import axios from 'axios';
 export class PixabayAPI {
   #BASE_URL = 'https://pixabay.com/api/';
   #API_KEY = '34956140-3027e5abb464d64a1ffd53e5a';
+  #perPage = 40;
 
   page = 1;
   query = null;
@@ -18,6 +19,7 @@ export class PixabayAPI {
           image_type: 'photo',
           orientation: 'horizontal',
           safesearch: true,
+          page: this.page,
           per_page: 40,
         },
       });
