@@ -8,7 +8,7 @@ const searchForm = document.querySelector('#search-form');
 const inputForm = document.querySelector('input[type="text"]');
 const btnSubmit = document.querySelector('button[type="submit"]');
 const galleryList = document.querySelector('.gallery');
-const btnLoadMore = document.querySelector('.load-more');
+let btnLoadMore = document.querySelector('button.load-more');
 
 const pixabayApi = new PixabayAPI();
 
@@ -54,6 +54,7 @@ const handleSearchFormSubmit = async event => {
   const searchQuery = inputForm.value.trim();
   pixabayApi.query = searchQuery;
   pixabayApi.page = 1;
+  btnLoadMore.classList.add('is-hidden');
 
   try {
     const { data } = await pixabayApi.fetchPhoto();
@@ -73,8 +74,6 @@ const handleSearchFormSubmit = async event => {
     lightbox.refresh();
   } catch (err) {
     console.log(err);
-  } finally {
-    btnLoadMore.classList.add('is-hidden');
   }
 };
 
@@ -93,6 +92,8 @@ const handleBtnLoadMoreClick = async () => {
     galleryList.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
   } catch (err) {
     console.log(err);
+  } finally {
+    btnLoadMore.classList.add('is-hidden');
   }
 };
 searchForm.addEventListener('submit', handleSearchFormSubmit);
