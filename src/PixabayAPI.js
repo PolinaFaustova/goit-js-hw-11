@@ -12,7 +12,7 @@ export class PixabayAPI {
 
   async fetchPhoto() {
     try {
-      return await axios.get(`${this.#BASE_URL}/search/photos`, {
+      return await axios.get(`${this.#BASE_URL}`, {
         params: {
           key: this.#API_KEY,
           q: this.query,

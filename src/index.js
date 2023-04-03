@@ -21,23 +21,27 @@ const renderGalleryCard = ({
   comments,
   downloads,
 }) => {
-  return ` <div class='photo-card'>
-  //   <img src='${webformatURL}' alt='${tags}' loading='lazy' />
-  //   <div class='info'>
-  //     <p class='info-item'>
-  //       <b>Likes</b> ${likes}
-  //     </p>
-  //     <p class='info-item'>
-  //       <b>Views</b> ${views}
-  //     </p>
-  //     <p class='info-item'>
-  //       <b>Comments</b> ${comments}
-  //     </p>
-  //     <p class='info-item'>
-  //       <b>Downloads</b> ${downloads}
-  //     </p>
-  //   </div>
-  // </div>`;
+  return `
+    <a href="${largeImageURL}" data-src="${largeImageURL}" data-caption="${tags}">
+      <div class='photo-card'>
+        <img src='${webformatURL}' alt='${tags}' loading='lazy' />
+        <div class='info'>
+          <p class='info-item'>
+            <b>Likes</b> ${likes}
+          </p>
+          <p class='info-item'>
+            <b>Views</b> ${views}
+          </p>
+          <p class='info-item'>
+            <b>Comments</b> ${comments}
+          </p>
+          <p class='info-item'>
+            <b>Downloads</b> ${downloads}
+          </p>
+        </div>
+      </div>
+    </a>
+  `;
 };
 
 const createGalleryCards = images => {
@@ -55,13 +59,18 @@ const handleSearchFormSubmit = async event => {
     const { data } = await pixabayApi.fetchPhoto();
 
     if (!data.hits.length) {
-      console.log(
+      Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
       return;
     }
+    const totalHits = data.totalHits;
     galleryList.innerHTML = createGalleryCards(data.hits);
     btnLoadMore.classList.remove('is-hidden');
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+
+    const lightbox = new SimpleLightbox('.gallery a');
+    lightbox.refresh();
   } catch (err) {
     console.log(err);
   } finally {
