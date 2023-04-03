@@ -12,7 +12,7 @@ export class PixabayAPI {
 
   async fetchPhoto() {
     try {
-      return axios.get(`${this.#BASE_URL}/search/photos`, {
+      return await axios.get(`${this.#BASE_URL}/search/photos`, {
         params: {
           key: this.#API_KEY,
           q: this.query,
@@ -20,7 +20,7 @@ export class PixabayAPI {
           orientation: 'horizontal',
           safesearch: true,
           page: this.page,
-          per_page: 40,
+          per_page: this.#perPage,
         },
       });
     } catch (err) {
