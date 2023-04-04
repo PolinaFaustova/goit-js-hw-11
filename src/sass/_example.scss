@@ -8,26 +8,80 @@ $white-color: #fff;
   padding: 0 15px;
 }
 
-header {
-  background-color: $primary-color;
-  color: $white-color;
+.page-header {
+  background-color: #007bff;
+  color: #fff;
   padding: 20px 0;
   position: sticky;
   top: 0;
   z-index: 999;
 }
 
-.header__title {
-  font-size: 32px;
-  margin: 0;
-  font-weight: bold;
-}
-
-.header__form {
+.search-form {
   display: flex;
+  justify-content: center;
   align-items: center;
   max-width: 500px;
   margin: 0 auto;
+
+  &__wrapper {
+    position: relative;
+  }
+
+  &__input {
+    background-color: $white-color;
+    color: $secondary-color;
+    padding: 10px;
+    font-size: 16px;
+    border: none;
+    border-radius: 5px;
+    width: 300px;
+
+    &::placeholder {
+      color: $secondary-color;
+    }
+  }
+
+  &__button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    text-indent: -999px;
+    overflow: hidden;
+    width: 40px;
+    padding: 0;
+    margin: 0;
+    border: 1px solid transparent;
+    border-radius: inherit;
+    background: transparent
+      url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' class='bi bi-search' viewBox='0 0 16 16'%3E%3Cpath d='M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z'%3E%3C/path%3E%3C/svg%3E")
+      no-repeat center;
+    cursor: pointer;
+    opacity: 0.7;
+  }
+}
+
+button[type='submit']:hover {
+  opacity: 1;
+}
+
+button[type='submit']:focus,
+input[type='search']:focus {
+  box-shadow: 0 0 3px 0 #1183d6;
+  border-color: #1183d6;
+  outline: none;
+}
+
+.search-svg {
+  display: inline-block;
+  width: 24px;
+  height: 24px;
+  fill: $primary-color;
+  // color: $primary-color;
 }
 
 .header__form-input {
@@ -44,8 +98,8 @@ header {
 }
 
 .header__form-btn {
-  background-color: $white-color;
-  color: $secondary-color;
+  background-color: #fff;
+  color: #6c757d;
   border: none;
   padding: 10px;
   border-radius: 5px;
@@ -53,17 +107,13 @@ header {
   transition: all 0.2s ease-in-out;
 
   &:hover {
-    background-color: $secondary-color;
-    color: $white-color;
+    background-color: #6c757d;
+    color: #fff;
   }
 
   &:focus {
     outline: none;
   }
-}
-
-.header__form-icon {
-  font-size: 24px;
 }
 
 // Галерея

@@ -68,7 +68,7 @@ const handleSearchFormSubmit = async event => {
   try {
     const { data } = await pixabayApi.fetchPhoto();
 
-    if (!data.hits.length && searchQuery === '') {
+    if (!data.hits.length) {
       Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
@@ -86,12 +86,7 @@ const handleSearchFormSubmit = async event => {
     });
     btnLoadMore.classList.remove('is-hidden');
 
-    if (searchQuery === '') {
-      Notiflix.Notify.warning(
-        'Enter the correct data to search! Please try again.'
-      );
-      return;
-    } else {
+    if (searchQuery !== '') {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
 

@@ -9,20 +9,38 @@
     <script type="module" src="./index.js"></script>
   </head>
   <body>
-    <form class="search-form" id="search-form">
-      <input
-        type="text"
-        name="searchQuery"
-        autocomplete="off"
-        placeholder="Search images..."
-      />
-      <button type="submit">Search</button>
-    </form>
-    <div class="gallery">
-      <!-- Карточки изображений -->
-    </div>
-    <button type="button" class="load-more is-hidden">Load more</button>
-    <!-- ❗️❗️❗️ Add partials like so for every page -->
-    <!-- <include src="./partials/example.html"></include> -->
+    <header class="page-header">
+      <form class="search-form" id="search-form">
+        <div class="search-form__wrapper">
+          <input
+            type="text"
+            name="searchQuery"
+            autocomplete="off"
+            placeholder="Search images..."
+            class="search-form__input"
+          />
+          <button type="submit" class="search-form__button">
+            Search
+            <!-- <svg class="search-svg" width="24" height="24">
+              <use href="./images/all.svg#search"></use>
+            </svg> -->
+          </button>
+        </div>
+      </form>
+    </header>
+    <main>
+      <div class="gallery">
+        <!-- Карточки изображений -->
+      </div>
+      <button type="button" class="load-more is-hidden">
+        Load more
+        <!-- <svg class="more-svg" width="24" heigh="24">
+          <use href="./images/all.svg#more"></use>
+        </svg> -->
+      </button>
+      <!-- ❗️❗️❗️ Add partials like so for every page -->
+      <!-- <include src="./partials/example.html"></include> -->
+    </main>
+    <footer></footer>
   </body>
 </html>
