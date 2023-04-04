@@ -9,6 +9,7 @@ const inputForm = document.querySelector('input[type="text"]');
 const btnSubmit = document.querySelector('button[type="submit"]');
 const galleryList = document.querySelector('.gallery');
 let btnLoadMore = document.querySelector('button.load-more');
+btnLoadMore.classList.add('is-hidden');
 
 const pixabayApi = new PixabayAPI();
 
@@ -67,7 +68,7 @@ const handleSearchFormSubmit = async event => {
   try {
     const { data } = await pixabayApi.fetchPhoto();
 
-    if (!data.hits.length) {
+    if (!data.hits.length && searchQuery === '') {
       Notiflix.Notify.warning(
         'Sorry, there are no images matching your search query. Please try again.'
       );
@@ -75,9 +76,22 @@ const handleSearchFormSubmit = async event => {
     }
     const totalHits = data.totalHits;
     galleryList.innerHTML = createGalleryCards(data.hits);
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
     btnLoadMore.classList.remove('is-hidden');
 
-    if (searchQuery !== '') {
+    if (searchQuery === '') {
+      Notiflix.Notify.warning(
+        'Enter the correct data to search! Please try again.'
+      );
+      return;
+    } else {
       Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
     }
 
@@ -93,18 +107,27 @@ const handleBtnLoadMoreClick = async () => {
 
   try {
     const { data } = await pixabayApi.fetchPhoto();
+    const totalPages = Math.ceil(data.totalHits / 40);
 
-    if (pixabayApi.page === Math.ceil(data.totalHits / 40)) {
+    if (pixabayApi.page === totalPages) {
       btnLoadMore.classList.add('is-hidden');
       Notiflix.Notify.warning(
         "We're sorry, but you've reached the end of search results."
       );
+    } else {
+      btnLoadMore.classList.remove('is-hidden');
     }
     galleryList.insertAdjacentHTML('beforeend', createGalleryCards(data.hits));
+    const { height: cardHeight } = document
+      .querySelector('.gallery')
+      .firstElementChild.getBoundingClientRect();
+
+    window.scrollBy({
+      top: cardHeight * 2,
+      behavior: 'smooth',
+    });
   } catch (err) {
     console.log(err);
-  } finally {
-    btnLoadMore.classList.add('is-hidden');
   }
 };
 searchForm.addEventListener('submit', handleSearchFormSubmit);
