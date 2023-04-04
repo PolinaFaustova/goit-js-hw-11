@@ -52,6 +52,14 @@ const createGalleryCards = images => {
 const handleSearchFormSubmit = async event => {
   event.preventDefault();
   const searchQuery = inputForm.value.trim();
+
+  if (!searchQuery) {
+    Notiflix.Notify.warning(
+      'Enter the correct data to search! Please try again.'
+    );
+    return;
+  }
+
   pixabayApi.query = searchQuery;
   pixabayApi.page = 1;
   btnLoadMore.classList.add('is-hidden');
@@ -68,7 +76,10 @@ const handleSearchFormSubmit = async event => {
     const totalHits = data.totalHits;
     galleryList.innerHTML = createGalleryCards(data.hits);
     btnLoadMore.classList.remove('is-hidden');
-    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+
+    if (searchQuery !== '') {
+      Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
+    }
 
     const lightbox = new SimpleLightbox('.gallery a');
     lightbox.refresh();
